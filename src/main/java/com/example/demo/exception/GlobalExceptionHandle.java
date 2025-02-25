@@ -5,14 +5,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.example.demo.dto.request.UserResponseDTO;
+import com.example.demo.dto.request.ApiResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandle {
     @ExceptionHandler(value = Exception.class)
-    ResponseEntity<UserResponseDTO<Void>> handlingRuntimeException(Exception exception) {
+    ResponseEntity<ApiResponse<Void>> handlingRuntimeException(Exception exception) {
 
-        UserResponseDTO<Void> userResponseDTO = new UserResponseDTO<Void>();
+        ApiResponse<Void> userResponseDTO = new ApiResponse<Void>();
 
         userResponseDTO.setMessage(ErrorCode.UNCATEGORIZED.getMessage());
         userResponseDTO.setCode(ErrorCode.UNCATEGORIZED.getCode());
@@ -21,9 +21,9 @@ public class GlobalExceptionHandle {
     }
 
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<UserResponseDTO<Void>> handlingAppException(AppException exception) {
+    ResponseEntity<ApiResponse<Void>> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
-        UserResponseDTO<Void> userResponseDTO = new UserResponseDTO<Void>();
+        ApiResponse<Void> userResponseDTO = new ApiResponse<Void>();
 
         userResponseDTO.setMessage(errorCode.getMessage());
         userResponseDTO.setCode(errorCode.getCode());
@@ -32,9 +32,9 @@ public class GlobalExceptionHandle {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<UserResponseDTO<Void>> handlingMethodArgumentNotValidException(
+    ResponseEntity<ApiResponse<Void>> handlingMethodArgumentNotValidException(
             MethodArgumentNotValidException exception) {
-        UserResponseDTO<Void> userResponseDTO = new UserResponseDTO<Void>();
+        ApiResponse<Void> userResponseDTO = new ApiResponse<Void>();
         String enumKey = exception.getFieldError().getDefaultMessage();
 
         ErrorCode errorCode = ErrorCode.KEY_INVALID;
