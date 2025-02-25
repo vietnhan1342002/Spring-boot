@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,16 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.request.UserCreationRequestDTO;
 import com.example.demo.dto.request.UserResponseDTO;
 import com.example.demo.dto.request.UserUpdateRequestDTO;
+import com.example.demo.dto.response.UserResponse;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class UserController {
-    @Autowired
-    private UserService userService;
+    UserService userService;
 
     @GetMapping()
     public List<User> getAllUser(){
@@ -39,12 +43,12 @@ public class UserController {
     }
 
     @GetMapping({"/{userId}"})
-    public User getUserById(@PathVariable String userId){
+    public UserResponse getUserById(@PathVariable String userId){
         return userService.getById(userId);
     }
 
     @PutMapping({"/{userId}"})
-    public User updateUser(@PathVariable String userId,@RequestBody UserUpdateRequestDTO request){
+    public UserResponse updateUser(@PathVariable String userId,@RequestBody UserUpdateRequestDTO request){
         return userService.updateUser(userId,request);
     }
 
