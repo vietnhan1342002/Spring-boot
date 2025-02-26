@@ -7,6 +7,7 @@ public enum ErrorCode {
     KEY_INVALID(400,"Invalid message key"),
     USERNAME_INVALID(400,"UserName must be at least 3 characters"),
     PASSWORD_INVALID(400,"Password must be at least 8 characters"),
+    UNAUTHENTICATED(401,"Unauthenticated")
     ;
 
     ErrorCode(int code, String message) {

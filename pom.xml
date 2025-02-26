@@ -81,6 +81,15 @@
 		</dependency>
 		<!-- Bcrypt -->
 
+		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>10.0.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+
+
 		<!-- run time -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
