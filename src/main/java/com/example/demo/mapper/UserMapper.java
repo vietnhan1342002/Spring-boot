@@ -1,7 +1,6 @@
 package com.example.demo.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.example.demo.dto.request.UserCreationRequestDTO;
@@ -13,7 +12,6 @@ import com.example.demo.entity.User;
 public interface UserMapper {
     User toUser(UserCreationRequestDTO request);
     
-    @Mapping(target = "password",ignore = true)
     UserResponse toUserResponse(User user);
     void updateUser(@MappingTarget User user, UserUpdateRequestDTO request);
 }

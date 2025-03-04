@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +11,7 @@ import com.example.demo.dto.request.UserCreationRequestDTO;
 import com.example.demo.dto.request.UserUpdateRequestDTO;
 import com.example.demo.dto.response.UserResponse;
 import com.example.demo.entity.User;
+import com.example.demo.enums.Role;
 import com.example.demo.exception.AppException;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.UserMapper;
@@ -25,13 +27,10 @@ import lombok.experimental.FieldDefaults;
 public class UserService {
     UserReponsitory userReponsitory;
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
 
-    public List<User> getAllUser() {
-        List<User> user = userReponsitory.findAll();
-        if (user.size() == 0) {
-            throw new RuntimeException("Don't have users");
-        }
-        return user;
+    public List<UserResponse> getAllUser() {
+        return userReponsitory.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
     public User createUser(UserCreationRequestDTO request) {
@@ -41,7 +40,11 @@ public class UserService {
         }
 
         User user = userMapper.toUser(request);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
+        
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return userReponsitory.save(user);
     }
