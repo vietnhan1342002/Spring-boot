@@ -1,6 +1,7 @@
 package com.example.demo.exception;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,7 +29,9 @@ public class GlobalExceptionHandle {
         userResponseDTO.setMessage(errorCode.getMessage());
         userResponseDTO.setCode(errorCode.getCode());
 
-        return ResponseEntity.badRequest().body(userResponseDTO);
+        return ResponseEntity
+                .status(errorCode.getHttpStatusCode())
+                .body(userResponseDTO);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -48,5 +51,15 @@ public class GlobalExceptionHandle {
         return ResponseEntity.badRequest().body(userResponseDTO);
     }
 
+    @ExceptionHandler(value = AuthorizationDeniedException.class)
+    ResponseEntity<ApiResponse> handlingAuthorizationDeniedException(AuthorizationDeniedException exception) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        return ResponseEntity.status(errorCode.getHttpStatusCode()).body(
+            ApiResponse.builder()
+            .code(errorCode.getCode())
+            .message(errorCode.getMessage())
+            .build()
+        );
+    }
 
 }
