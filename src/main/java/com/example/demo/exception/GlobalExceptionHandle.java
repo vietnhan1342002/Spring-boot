@@ -34,6 +34,7 @@ public class GlobalExceptionHandle {
                 .body(userResponseDTO);
     }
 
+    @SuppressWarnings("null")
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse<Void>> handlingMethodArgumentNotValidException(
             MethodArgumentNotValidException exception) {
@@ -44,13 +45,13 @@ public class GlobalExceptionHandle {
         try {
             errorCode = ErrorCode.valueOf(enumKey);
         } catch (IllegalArgumentException e) {
-            // TODO: handle exception
         }
         userResponseDTO.setMessage(errorCode.getMessage());
         userResponseDTO.setCode(errorCode.getCode());
         return ResponseEntity.badRequest().body(userResponseDTO);
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler(value = AuthorizationDeniedException.class)
     ResponseEntity<ApiResponse> handlingAuthorizationDeniedException(AuthorizationDeniedException exception) {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;

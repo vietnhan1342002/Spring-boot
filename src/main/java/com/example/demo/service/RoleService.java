@@ -6,13 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.request.PermissionCreationRequestDTO;
 import com.example.demo.dto.request.RoleCreationRequestDTO;
-import com.example.demo.dto.response.PermissionResponse;
 import com.example.demo.dto.response.RoleResponse;
-import com.example.demo.entity.Permission;
-import com.example.demo.entity.Role;
-import com.example.demo.mapper.PermissionMapper;
 import com.example.demo.mapper.RoleMapper;
 import com.example.demo.reponsitory.PermissionRepository;
 import com.example.demo.reponsitory.RoleRepository;

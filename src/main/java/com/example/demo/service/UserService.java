@@ -70,6 +70,7 @@ public class UserService {
         userReponsitory.deleteById(userId);
     }
 
+    @SuppressWarnings("deprecation")
     public UserResponse getInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
