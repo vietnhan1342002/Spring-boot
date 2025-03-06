@@ -15,6 +15,7 @@ import com.example.demo.enums.Role;
 import com.example.demo.exception.AppException;
 import com.example.demo.exception.ErrorCode;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.reponsitory.RoleRepository;
 import com.example.demo.reponsitory.UserReponsitory;
 
 import lombok.AccessLevel;
@@ -31,6 +32,7 @@ public class UserService {
     UserReponsitory userReponsitory;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
     public List<UserResponse> getAllUser() {
         return userReponsitory.findAll().stream().map(userMapper::toUserResponse).toList();
@@ -59,9 +61,9 @@ public class UserService {
 
     public UserResponse updateUser(String userId, UserUpdateRequestDTO request) {
         User user = userReponsitory.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
         userMapper.updateUser(user, request);
-
         return userMapper.toUserResponse(userReponsitory.save(user));
     }
 
