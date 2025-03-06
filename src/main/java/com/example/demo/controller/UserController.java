@@ -34,22 +34,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserController {
     UserService userService;
-
-    @GetMapping()
-    // @PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("hasAuthority('READ_DATA')")
-    public ApiResponse<List<UserResponse>> getAllUser() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
-        return ApiResponse.<List<UserResponse>>builder().result(userService.getAllUser()).build();
-    }
-
+    
     @PostMapping()
     public ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequestDTO request) {
         ApiResponse<User> userRespiResponseDTO = new ApiResponse<>();
         userRespiResponseDTO.setResult(userService.createUser(request));
         return userRespiResponseDTO;
     }
+    
+    @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasAuthority('READ_DATA')")
+    public ApiResponse<List<UserResponse>> getAllUser() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+        return ApiResponse.<List<UserResponse>>builder().result(userService.getAllUser()).build();
+    }
+
 
     @GetMapping({ "/info" })
     public ApiResponse<UserResponse> getInfo() {

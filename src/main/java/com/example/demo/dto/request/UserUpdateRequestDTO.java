@@ -3,6 +3,8 @@ package com.example.demo.dto.request;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.example.demo.validator.DoBContraint;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 public class UserUpdateRequestDTO {
     String firstName;
     String lastName;
+    @DoBContraint(min=18,message = "INVALID_DOB")
     LocalDate dob;
     List<String> roles;
 }

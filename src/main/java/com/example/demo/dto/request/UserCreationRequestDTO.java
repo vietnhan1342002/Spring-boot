@@ -2,6 +2,7 @@ package com.example.demo.dto.request;
 
 import java.time.LocalDate;
 
+import com.example.demo.validator.DoBContraint;
 
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -23,7 +24,10 @@ public class UserCreationRequestDTO {
     @Size(min = 8,message = "PASSWORD_INVALID")
     String password;
 
+    @DoBContraint(min=18,message = "INVALID_DOB")
+    LocalDate dob;
+    
     String firstName;
     String lastName;
-    LocalDate dob;
+    
 }
