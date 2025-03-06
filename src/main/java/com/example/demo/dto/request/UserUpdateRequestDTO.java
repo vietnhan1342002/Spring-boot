@@ -1,6 +1,7 @@
 package com.example.demo.dto.request;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,4 +19,5 @@ public class UserUpdateRequestDTO {
     String firstName;
     String lastName;
     LocalDate dob;
+    List<String> roles;
 }

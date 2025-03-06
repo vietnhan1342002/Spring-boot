@@ -36,10 +36,10 @@ public class UserController {
     UserService userService;
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('READ_DATA')")
     public ApiResponse<List<UserResponse>> getAllUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("userName: " + authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
         return ApiResponse.<List<UserResponse>>builder().result(userService.getAllUser()).build();
     }
