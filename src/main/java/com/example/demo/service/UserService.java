@@ -33,7 +33,6 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public List<UserResponse> getAllUser() {
-        log.info("In method");
         return userReponsitory.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
@@ -47,7 +46,7 @@ public class UserService {
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-        user.setRoles(roles);
+        // user.setRoles(roles);
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return userReponsitory.save(user);
