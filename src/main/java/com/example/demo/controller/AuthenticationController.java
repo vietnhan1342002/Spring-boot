@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.request.ApiResponse;
 import com.example.demo.dto.request.auth.AuthenticationDTO;
 import com.example.demo.dto.request.auth.IntrospectTokenDTO;
+import com.example.demo.dto.request.auth.LogoutDTO;
+import com.example.demo.dto.request.auth.RefreshDTO;
 import com.example.demo.dto.response.AuthenticationResponse;
 import com.example.demo.dto.response.IntrospectTokenResponse;
 import com.example.demo.service.AuthenticationService;
@@ -35,10 +37,26 @@ public class AuthenticationController {
     }
 
     @PostMapping("/introspect")
-    public ApiResponse<IntrospectTokenResponse> introspect(@RequestBody IntrospectTokenDTO request) throws JOSEException, ParseException {
+    public ApiResponse<IntrospectTokenResponse> introspect(@RequestBody IntrospectTokenDTO request)
+            throws JOSEException, ParseException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectTokenResponse>builder()
                 .result(result)
                 .build();
+    }
+
+    @PostMapping("/refresh")
+    public ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshDTO request)
+            throws JOSEException, ParseException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(@RequestBody LogoutDTO request) throws JOSEException, ParseException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder().build();
     }
 }
